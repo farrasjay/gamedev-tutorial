@@ -1,0 +1,150 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://scenes/GreenShip.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/SnowPlatform.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/PlatformSnow.gd" type="Script" id=3]
+[ext_resource path="res://scenes/Lv2ObjectiveArea.gd" type="Script" id=4]
+[ext_resource path="res://assets/PortalPortalan.png" type="Texture" id=5]
+[ext_resource path="res://assets/meteorBrown_big1.png" type="Texture" id=6]
+[ext_resource path="res://scenes/SpriteRotation.gd" type="Script" id=7]
+[ext_resource path="res://assets/playerShip1_green.png" type="Texture" id=8]
+[ext_resource path="res://scenes/GreenShipPlayer.gd" type="Script" id=9]
+
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 2
+emission_box_extents = Vector3( 1, 300, 1 )
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = -10.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+color = Color( 1, 1, 1, 0.294118 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+emission_shape = 2
+emission_box_extents = Vector3( 1, 300, 1 )
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = -20.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 2.0
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 88.0568
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 29.443
+
+[sub_resource type="ParticlesMaterial" id=8]
+emission_shape = 1
+emission_sphere_radius = 0.01
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 30.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+color = Color( 0, 0.576471, 1, 1 )
+
+[node name="SecondLevel" type="Node2D"]
+
+[node name="BackgroundStarFields" type="Node2D" parent="."]
+position = Vector2( 1038, 300 )
+
+[node name="StarField" type="Particles2D" parent="BackgroundStarFields"]
+z_index = -100
+amount = 1000
+lifetime = 144.0
+preprocess = 280.0
+process_material = SubResource( 2 )
+
+[node name="StarField2" type="Particles2D" parent="BackgroundStarFields"]
+z_index = -90
+amount = 250
+lifetime = 144.0
+preprocess = 280.0
+process_material = SubResource( 3 )
+
+[node name="Asteroid" type="StaticBody2D" parent="."]
+position = Vector2( 890, 252 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid"]
+position = Vector2( 1.99999, 2.99998 )
+scale = Vector2( 1.78218, 2.02381 )
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Asteroid"]
+shape = SubResource( 6 )
+
+[node name="Asteroid2" type="StaticBody2D" parent="."]
+position = Vector2( 440, 356 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid2"]
+position = Vector2( -8.82149e-06, 2.50002 )
+scale = Vector2( 1.80198, 1.9881 )
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Asteroid2"]
+shape = SubResource( 6 )
+
+[node name="Asteroid3" type="StaticBody2D" parent="."]
+position = Vector2( 305, 175 )
+
+[node name="Sprite" type="Sprite" parent="Asteroid3"]
+position = Vector2( -8.82149e-06, 2.50002 )
+scale = Vector2( 1.80198, 1.9881 )
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Asteroid3"]
+shape = SubResource( 6 )
+
+[node name="PlatformSnow" type="Node2D" parent="."]
+visible = false
+script = ExtResource( 3 )
+
+[node name="StonePlatform" parent="PlatformSnow" instance=ExtResource( 2 )]
+position = Vector2( 910, 562 )
+
+[node name="StonePlatform2" parent="PlatformSnow" instance=ExtResource( 2 )]
+position = Vector2( 985, 562 )
+
+[node name="GreenShip" parent="." instance=ExtResource( 1 )]
+visible = false
+position = Vector2( 947, 482 )
+
+[node name="GreenShipPlayer" type="KinematicBody2D" parent="."]
+position = Vector2( 65, 515 )
+script = ExtResource( 9 )
+
+[node name="Sprite" type="Sprite" parent="GreenShipPlayer"]
+rotation = 1.5708
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="GreenShipPlayer"]
+rotation = 1.5708
+polygon = PoolVector2Array( -12, -12, -8, -37, 7, -37, 12, -12, 36, 2, 41, 0, 44, -6, 47, -7, 49, -5, 46, 24, 43, 25, 40, 20, 37, 24, 31, 23, 13, 27, 7, 38, -7, 38, -14, 28, -41, 20, -44, 24, -46, 23, -50, -5, -45, -7, -41, 0, -35, 2 )
+
+[node name="Lv2ObjectiveArea" type="Area2D" parent="."]
+position = Vector2( 908, 3 )
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Lv2ObjectiveArea"]
+position = Vector2( 70.625, 40 )
+shape = SubResource( 7 )
+
+[node name="Particles2D" type="Particles2D" parent="Lv2ObjectiveArea/CollisionShape2D"]
+amount = 1000
+preprocess = 100.0
+process_material = SubResource( 8 )
+
+[node name="Sprite" type="Sprite" parent="Lv2ObjectiveArea/CollisionShape2D"]
+position = Vector2( 0.375, 5 )
+scale = Vector2( 0.0542603, 0.0585632 )
+texture = ExtResource( 5 )
+
+[connection signal="body_entered" from="Lv2ObjectiveArea" to="Lv2ObjectiveArea" method="_on_ObjectiveArea_body_entered"]
